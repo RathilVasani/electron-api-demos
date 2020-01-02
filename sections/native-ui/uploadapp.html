@@ -1,0 +1,53 @@
+<template class="task-template">
+  <section id="uploadapp-section" class="section js-section u-category-native-ui">
+    <header class="section-header">
+      <div class="section-wrapper">
+        <h1>
+          <svg class="section-icon"><use xlink:href="assets/img/icons.svg#icon-native-ui"></use></svg>
+          Upload App to BrowserStack AppLive and AppAuotmate
+        </h1>
+        <h3>Enter your BrowserStack username and access key</h3>
+
+        <p>Get your BrowserStack username and acccess key from <a href="https://www.browserstack.com/accounts/settings">here<span class="u-visible-to-screen-reader">(opens in new window)</span></a></p>
+        <br>
+        <form id='credentials'>
+          <select>
+  <option value="applive">App-Live</option>
+  <option value="appautomate">App-Auomate</option>
+</select><br>
+Select a file: <input type="file" name="myapp"><br>
+Custom ID:<input type="text" name="customid" value="" placeholder="optional">
+<button type="button" id="uploadapp" name="button">Upload</button>
+          </form>
+
+
+          <div class="demo">
+      <button type="button" name="button" id="getapp">Get Uploaded App for App-Automate</button>
+      <div class="" id="app_table">
+        <table>
+          <thead>
+            <thead>
+              <tr>
+                  <th>Name</th>
+                  <th>App_URL</th>
+                  <th>Custom_id</th>
+                  <th>Delete</th>
+              </tr>
+            </thead>
+          </thead>
+        </table>
+      </div>
+
+          </div>
+      </div>
+    </header>
+
+
+
+    <script type="text/javascript">
+      require('./renderer-process/native-ui/ex-links-file-manager/file-manager')
+      require('./renderer-process/native-ui/ex-links-file-manager/ex-links')
+    </script>
+
+  </section>
+</template>

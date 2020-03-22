@@ -6,18 +6,34 @@ const key = document.getElementById('accesskey').value
 const startlocal = document.getElementById('start-local')
 
 startlocal.addEventListener('click', (event) => {
-  if(!document.getElementById('forcelocal').checked){
+
     console.log('twat');
+    console.log(key);
     console.log(bs_local.isRunning());
     if (!bs_local.isRunning()) {
       // creates an instance of Local
       // replace <browserstack-accesskey> with your key. You can also set an environment variable - "BROWSERSTACK_ACCESS_KEY".
-       bs_local_args = { 'key': key };
+       var args = '{"key": "'+key+'"}';
+
+
+       bs_local_args = JSON.parse(args);
+       // bs_local_args = { key: key , args };
+       // bs_local_args = { key: key , forcelocal : true };
        console.log(bs_local_args);
+       // console.log(typeof bs_local_args);
       // starts the Local instance with the required arguments
+      console.log(bs_local.isRunning());
        bs_local.start(bs_local_args, function() {
-        console.log("Started BrowserStackLocal");
-        document.getElementById('local_status').innerHTML = "LocalTesting: Running";
+
+         if (bs_local.isRunning()) {
+           console.log("Started BrowserStackLocal");
+           document.getElementById('local_status').innerHTML = "LocalTesting: Running";
+         }
+         else {
+           console.log("Issue starting Binary from Code!!");
+         }
+
+         console.log(bs_local.isRunning());
 
 
 
@@ -26,34 +42,8 @@ startlocal.addEventListener('click', (event) => {
     else{
       console.log('Binary Already Running!!');
     }
-  }
-  else {
-    // console.log(document.getElementById('add_flag').value);
-    console.log('twat');
-    console.log(bs_local.isRunning());
-    if (!bs_local.isRunning()) {
 
-      // creates an instance of Local
-      // replace <browserstack-accesskey> with your key. You can also set an environment variable - "BROWSERSTACK_ACCESS_KEY".
-       bs_local_args = { 'key': key ,'forceLocal': 'true'};
-       console.log(bs_local_args);
 
-       // console.log(bs_local_args);
-      // starts the Local instance with the required arguments
-       bs_local.start(bs_local_args, function() {
-        // console.log("Started BrowserStackLocal");
-        if (bs_local.isRunning()) {
-          document.getElementById('local_status').innerHTML = "LocalTesting: Running";
-        }
-
-      });
-    }
-    else{
-      console.log('Binary Already Running!!');
-    }
-     // bs_local_args = { 'key': key+","+document.getElementById('add_flag').value };
-
-  }
 
 
 });

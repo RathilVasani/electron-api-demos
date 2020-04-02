@@ -22,7 +22,8 @@ function execute(command, callback) {
 
 upload.addEventListener('click', (event) => {
   const filepath=document.getElementById('applivefile').files[0].path
-  autostatus.innerHTML="uploading";
+  document.getElementById('live-loader').removeAttribute("hidden");
+  document.getElementById('applivestatus').setAttribute("hidden","true");
   var options = {
     method: 'POST',
     url: 'https://'+username+':'+key+'@api-cloud.browserstack.com/app-live/upload',
@@ -36,6 +37,9 @@ upload.addEventListener('click', (event) => {
     if (error) throw new Error(error);
     console.log(body);
     autostatus.innerHTML=body;
+    document.getElementById('live-loader').setAttribute("hidden",true);
+    document.getElementById('applivestatus').removeAttribute("hidden");
+
   });
 });
 
@@ -124,7 +128,7 @@ function deleteapp(element) {
 
 function callback(error, response, body) {
     if (!error && response.statusCode == 200) {
-        console.log(body);
+        console.log(JSON.parse(body));
     }
 }
 request(options, callback);

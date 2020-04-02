@@ -22,8 +22,9 @@ function execute(command, callback) {
 
 upload.addEventListener('click', (event) => {
   const filepath=document.getElementById('appautomatefile').files[0].path
-  autostatus.innerHTML="uploading";
-  var options = {
+  // autostatus.innerHTML="uploading";
+  document.getElementById('loader').removeAttribute("hidden");
+  document.getElementById('appautostatus').setAttribute("hidden","true");  var options = {
     method: 'POST',
     url: 'https://'+username+':'+key+'@api-cloud.browserstack.com/app-automate/upload',
     formData: {
@@ -36,6 +37,8 @@ upload.addEventListener('click', (event) => {
     if (error) throw new Error(error);
     console.log(body);
     autostatus.innerHTML=body;
+    document.getElementById('loader').setAttribute("hidden",true);
+    document.getElementById('appautostatus').removeAttribute("hidden");
   });
 });
 

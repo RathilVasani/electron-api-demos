@@ -6,17 +6,17 @@ const bs_local = new browserstack.Local();
 const key = document.getElementById('accesskey').value
 const startlocal = document.getElementById('start-local')
 
-exec("./assets/BrowserStackLocal", (error, stdout, stderr) => {
-    if (error) {
-        console.log(`error: ${error.message}`);
-        return;
-    }
-    if (stderr) {
-        console.log(`stderr: ${stderr}`);
-        return;
-    }
-    console.log(`stdout: ${stdout}`);
-});
+// exec("./assets/BrowserStackLocal", (error, stdout, stderr) => {
+//     if (error) {
+//         console.log(`error: ${error.message}`);
+//         return;
+//     }
+//     if (stderr) {
+//         console.log(`stderr: ${stderr}`);
+//         return;
+//     }
+//     console.log(`stdout: ${stdout}`);
+// });
 
 startlocal.addEventListener('click', (event) => {
 

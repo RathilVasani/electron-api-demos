@@ -11,7 +11,6 @@ function execute(command, callback) {
 
 // call the function
 
-
 const runonbs = document.getElementById('run-on-bs')
 
 runonbs.addEventListener('click', (event) => {

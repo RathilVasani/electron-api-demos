@@ -122,13 +122,14 @@ function load_apps() {
 function deleteapp(element) {
   console.log(element);
   var options = {
-    url: 'https://'+username+':'+key+'api-cloud.browserstack.com/app-live/app/delete/'+element,
+    url: 'https://'+username+':'+key+'@api-cloud.browserstack.com/app-live/app/delete/'+element,
     method: 'DELETE'
 };
 
 function callback(error, response, body) {
     if (!error && response.statusCode == 200) {
-        console.log(JSON.parse(body));
+        console.log(body);
+        load_apps();
     }
 }
 request(options, callback);

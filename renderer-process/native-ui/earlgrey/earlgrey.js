@@ -25,13 +25,30 @@ upload.addEventListener('click', (event) => {
   const filepath=document.getElementById('earlgreyfile').files[0].path
   document.getElementById('earlgrey-loader').removeAttribute("hidden");
   document.getElementById('earlgreystatus').setAttribute("hidden","true");
-  var options = {
-    method: 'POST',
-    url: 'https://'+username+':'+key+'@api-cloud.browserstack.com/app-automate/earlgrey/app-dir',
-    formData: {
-      file: fs.createReadStream(filepath)
-    }
-  };
+  if(!document.getElementById('earlgrey_custom_id').value){
+    console.log("no cusotm_id");
+    var options = {
+      method: 'POST',
+      url: 'https://'+username+':'+key+'@api-cloud.browserstack.com/app-automate/earlgrey/app-dir',
+      formData: {
+        file: fs.createReadStream(filepath)
+      }
+    };
+
+  }
+  else {
+      console.log("cusotm_id");
+      var options = {
+        method: 'POST',
+        url: 'https://'+username+':'+key+'@api-cloud.browserstack.com/app-automate/earlgrey/app-dir',
+        formData: {
+          file: fs.createReadStream(filepath),
+          custom_id: document.getElementById('earlgrey_custom_id').value
+        }
+      };
+
+  }
+
 
 
   request(options, function (error, response, body) {
@@ -131,19 +148,19 @@ function load_apps() {
 function deleteapp(element) {
   console.log(element);
   var options = {
-    url: 'https://'+username+':'+key+'api-cloud.browserstack.com/earlgrey/app-dirs/'+element,
+    url: 'https://'+username+':'+key+'@api-cloud.browserstack.com/app-automate/earlgrey/app-dirs/'+element,
     method: 'DELETE'
 };
 console.log(options);
 function callback(error, response, body) {
     if (!error && response.statusCode == 200) {
-        // console.log(JSON.parse(body));
-        console.log(error+"NO error");
-
+        console.log(body);
+        load_apps();
     }
 
 }
 request(options, callback);
+load_apps();
 }
 
 // --------------- Copy dir id --------------------//

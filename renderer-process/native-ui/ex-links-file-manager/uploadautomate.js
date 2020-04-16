@@ -1,3 +1,4 @@
+console.log("Hello App-Automate");
 const {shell} = require('electron')
 const {ipcRenderer} = require('electron')
 const { clipboard } = require('electron')
@@ -18,19 +19,37 @@ function execute(command, callback) {
     });
 };
 
-// call the function
+// --------------- Upload Zip File --------------------//
 
 upload.addEventListener('click', (event) => {
   const filepath=document.getElementById('appautomatefile').files[0].path
   // autostatus.innerHTML="uploading";
   document.getElementById('loader').removeAttribute("hidden");
-  document.getElementById('appautostatus').setAttribute("hidden","true");  var options = {
-    method: 'POST',
-    url: 'https://'+username+':'+key+'@api-cloud.browserstack.com/app-automate/upload',
-    formData: {
-      file: fs.createReadStream(filepath)
-    }
-  };
+  document.getElementById('appautostatus').setAttribute("hidden","true");
+  if(!document.getElementById('app_auto_custom_id').value){
+    console.log("no cusotm_id");
+    var options = {
+      method: 'POST',
+      url: 'https://'+username+':'+key+'@api-cloud.browserstack.com/app-automate/upload',
+      formData: {
+        file: fs.createReadStream(filepath)
+      }
+    };
+
+  }
+  else {
+      console.log("cusotm_id");
+      var options = {
+        method: 'POST',
+        url: 'https://'+username+':'+key+'@api-cloud.browserstack.com/app-automate/upload',
+        formData: {
+          file: fs.createReadStream(filepath),
+          custom_id: document.getElementById('app_auto_custom_id').value
+        }
+      };
+
+  }
+
 
 
   request(options, function (error, response, body) {
@@ -42,6 +61,8 @@ upload.addEventListener('click', (event) => {
   });
 });
 
+// --------------- Get Recent Upload on espresso  --------------------//
+
 function load_apps() {
   var options = {
     method: 'GET',
@@ -52,10 +73,10 @@ function load_apps() {
     if (error) throw new Error(error);
 
   var customers = new Array();
-  customers.push(["Name","App_URL","App_Version","Delete","copy"]);
+  customers.push(["Name","App_URL","Custom ID","Delete","copy"]);
     parsedbody = JSON.parse(body);
     for(var i= 0;i<parsedbody.length;i++){
-      customers.push([parsedbody[i].app_name,parsedbody[i].app_url,parsedbody[i].app_version,parsedbody[i].app_id,parsedbody[i].app_id]);
+      customers.push([parsedbody[i].app_name,parsedbody[i].app_url,parsedbody[i].custom_id,parsedbody[i].app_id,parsedbody[i].app_id]);
 
     }
    ///////////////////////////////////////////////////
@@ -118,20 +139,25 @@ function load_apps() {
   });
 }
 
+// --------------- Delete EarlGrey dir --------------------//
+
 function deleteapp(element) {
   console.log(element);
   var options = {
-    url: 'https://'+username+':'+key+'api-cloud.browserstack.com/app-automate/app/delete/'+element,
+    url: 'https://'+username+':'+key+'@api-cloud.browserstack.com/app-automate/app/delete/'+element,
     method: 'DELETE'
 };
 
 function callback(error, response, body) {
     if (!error && response.statusCode == 200) {
         console.log(body);
+        load_apps();
     }
 }
 request(options, callback);
 }
+// --------------- Copy dir id --------------------//
+
 function copyappid(elementid) {
   console.log(elementid);
   clipboard.writeText(elementid);
